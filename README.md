@@ -11,3 +11,8 @@
 ![config 1](/config1.png "config1")
 2.build path配置
 ![config 1](/config2.png "config1")
+
+Depend On：
+[JsonToJava](https://github.com/jonfhancock/JsonToJava)
+[android-async-http](https://travis-ci.org/loopj/android-async-http.png?branch=master)
+....
