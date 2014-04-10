@@ -8,6 +8,6 @@
 
 配置文档：
 1.lib配置
-![config 1](/config1.pngg "config1")
+![config 1](/config1.png "config1")
 2.build path配置
-![config 1](/config2.pngg "config1")
+![config 1](/config2.png "config1")
