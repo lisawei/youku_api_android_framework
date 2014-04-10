@@ -13,6 +13,6 @@
 ![config 1](/config2.png "config1")
 
 Depend On：
-[JsonToJava](https://github.com/jonfhancock/JsonToJava)
-[android-async-http](https://travis-ci.org/loopj/android-async-http.png?branch=master)
-....
+* [JsonToJava](https://github.com/jonfhancock/JsonToJava)
+* [android-async-http](https://travis-ci.org/loopj/android-async-http.png?branch=master)
+* ....
