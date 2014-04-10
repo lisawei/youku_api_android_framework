@@ -1,8 +1,13 @@
-youku_api_android_framework
-===========================
 
-<<<<<<< HEAD
-YOUKU API Open Source Android Framework
-=======
-youku open source api android framework
->>>>>>> 04a9462e81a3c572a7b994ae70c2deba7191359b
+
+#YOUKU API Open Source Android Framework
+
+##优酷移动API开源Android Framework
+
+开源目的：使用开源框架进行封装，方便初学者上手，供大家交流学习使用。
+
+配置文档：
+1.lib配置
+![config 1](/config1.pngg "config1")
+2.build path配置
+![config 1](/config2.pngg "config1")
