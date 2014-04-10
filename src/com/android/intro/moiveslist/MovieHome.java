@@ -12,30 +12,43 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.intro.moviceslist.base.BaseActivity;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class MovieHome extends FragmentActivity {
+public class MovieHome extends BaseActivity {
     
-    public static HashMap<Integer,String> channelTabs = new HashMap<Integer,String>();
-	public static ArrayList<Integer> channels = new ArrayList<Integer>();
+    public static HashMap<Integer,String> channelTabs;
+	public static ArrayList<Integer> channels;
 	ViewPager pager;
 	ImageView gotoSearchBtn;
+	private static boolean isExit = false;
+	private long clickTime = 0; 
 	
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
     	
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
     	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     	 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_tabs);
         
+        setContentView(R.layout.home);
+        
+        if(savedInstanceState!=null){
+        	return;
+        }
+        
+        channelTabs = new HashMap<Integer,String>(); 
         channelTabs.put(96, "电影");
 		channelTabs.put(84, "纪录片");
 		channelTabs.put(97, "电视剧");
@@ -44,6 +57,7 @@ public class MovieHome extends FragmentActivity {
 		channelTabs.put(100, "动漫");
 		channelTabs.put(87, "教育");
 		
+		channels = new ArrayList<Integer>();
 		channels.add(96);
 		channels.add(97);
 		channels.add(85);
@@ -57,9 +71,30 @@ public class MovieHome extends FragmentActivity {
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(adapter);
         
-
+        
         TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(pager);
+        indicator.setOnPageChangeListener(new OnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int arg0) { }
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) { }
+
+			@Override
+			public void onPageSelected(int position) {
+				switch (position) {
+				case 0:
+					getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+					break;
+				default:
+					getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+					break;
+				}
+			} 
+		});
+        getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        
         
         gotoSearchBtn = (ImageView) this.findViewById(R.id.gotoSearchBtn);
         gotoSearchBtn.setOnClickListener(new OnClickListener(){
@@ -71,7 +106,7 @@ public class MovieHome extends FragmentActivity {
 				overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.anim_slide_out_top);
 			}
         });
-        
+
     }
 
     class MovieChannelAdapter extends FragmentPagerAdapter {
@@ -100,5 +135,24 @@ public class MovieHome extends FragmentActivity {
         public int getCount() {
           return channels.size();
         }
+    }
+    
+    
+    @Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event) {  
+        if (keyCode == KeyEvent.KEYCODE_BACK) {  
+            exit();  
+            return true;  
+        }  
+        return super.onKeyDown(keyCode, event);  
+    }  
+      
+    private void exit() {  
+        if ((System.currentTimeMillis() - clickTime) > 2000) {  
+            Toast.makeText(getApplicationContext(), "再按一次后退键退出",   Toast.LENGTH_SHORT).show();  
+            clickTime = System.currentTimeMillis();  
+        } else {  
+            this.finish();  
+        }  
     }
 }

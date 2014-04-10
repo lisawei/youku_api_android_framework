@@ -75,10 +75,11 @@ public class MovieDetailAdapter extends BaseAdapter {
 
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.complex1, null);
+			convertView = inflater.inflate(R.layout.detail, null);
 
 			holder = new ViewHolder();
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.title);
+			holder.title_bottomTextView = (TextView) convertView.findViewById(R.id.title_bottom);
 			holder.photoView = (NetworkedCacheableImageView) convertView.findViewById(R.id.photo);
 			holder.photoView.setOnClickListener(new OnClickListener() {
 			    public void onClick(View v) {
@@ -102,7 +103,13 @@ public class MovieDetailAdapter extends BaseAdapter {
 		holder.titleTextView.setText(String.format("%d. %s", position + 1,
 				data.get("title")));
 		holder.titleTextView.setBackgroundColor(context.getResources()
-				.getColor(R.color.translucent_green));
+				.getColor(R.color.green));
+		
+		holder.title_bottomTextView.setText(String.format("%s",
+				data.get("subtitle")));
+		holder.title_bottomTextView.setBackgroundColor(context.getResources()
+				.getColor(R.color.red));
+		
 		final boolean fromCache = holder.photoView.loadImage(data.get("thumb"), false, null);
 
 		return convertView;
@@ -111,6 +118,7 @@ public class MovieDetailAdapter extends BaseAdapter {
 	
 	static class ViewHolder {
 		TextView titleTextView;
+		TextView title_bottomTextView;
 		NetworkedCacheableImageView photoView;
 	}
 

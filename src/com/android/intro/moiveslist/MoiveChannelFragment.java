@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -41,7 +42,8 @@ public class MoiveChannelFragment extends Fragment {
 	private boolean loading = true;
 	private int previousTotal = 0;
 	private int visibleThreshold = 10;
-	
+	protected ProgressBar mProgressBar;
+	private View convertView;
 	MoiveModel moives;
 	String cid;
 
@@ -63,7 +65,8 @@ public class MoiveChannelFragment extends Fragment {
 				&& savedInstanceState.containsKey(KEY_CONTENT)) {
 			channelId = savedInstanceState.getInt(KEY_CONTENT);
 		}
-
+		
+		pg = 1;
 	}
 
 	@Override
@@ -99,13 +102,21 @@ public class MoiveChannelFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		View convertView;
+		
+		if(savedInstanceState!=null)
+        {
+			if(convertView!=null){
+				return convertView;
+			}
+        }
+		
 		convertView = LayoutInflater.from(mContext).inflate(
 				R.layout.activity_main, container, false);
 
 		moiveGridView = (GridView) convertView
 				.findViewById(R.id.moivesGridView);
+		
+		mProgressBar = (ProgressBar)convertView.findViewById(R.id.ajax_loading);
 
 		moiveGridView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v,
@@ -166,12 +177,14 @@ public class MoiveChannelFragment extends Fragment {
 		});
 
 
+		mProgressBar.setVisibility(View.VISIBLE); 
 		moives.get_channel_list(cid, pg, pz, new HttpCallBackHandler() {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void onSuccess(HashMap<String, Object> result) {
 				onHttpResponseCallback((ArrayList<String>) result
 						.get("results"));
+				mProgressBar.setVisibility(View.INVISIBLE);
 			}
 		});
 

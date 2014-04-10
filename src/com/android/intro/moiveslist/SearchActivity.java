@@ -37,9 +37,6 @@ public class SearchActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.search_layout);
 		
-		recommendImage = (NetworkedCacheableImageView) findViewById(R.id.recommend_pic);
-		recommendImage.loadImage("http://r4.ykimg.com/050E000052AA84F8675839423B04DE78", true, null);
-		
 		searchModel  = new SearchSuggestModel(this);
 		
 		textView = (AutoCompleteTextView) findViewById(R.id.search_textbox);
